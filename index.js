@@ -7,13 +7,13 @@ const { saveMarkdown } = require("./src/saveFile");
 fs.mkdirSync("data/articles", { recursive: true });
 
 async function run() {
-  const articles = await pullArticles(30);
+  const articles = await pullArticles(80);
 
   let count = 0;
   for (const article of articles) {
     const cleaned = cleanHtml(article.body);
     const md = htmlToMarkdown(cleaned);
-    saveMarkdown(article.title, md);
+    saveMarkdown(article.title, article.html_url, md);
     count++;
   }
 

@@ -1,3 +1,13 @@
 node_modules/
 data/
 .env.sample
+.env
+__pycache__/
+*.pyc
+*.pyc
+*.pyo
+*.pyd
+
+venv/
+.venv/
+faiss_index/
