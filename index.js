@@ -7,7 +7,7 @@ const { saveMarkdown } = require("./src/saveFile");
 fs.mkdirSync("data/articles", { recursive: true });
 
 async function run() {
-  const articles = await pullArticles(80);
+  const articles = await pullArticles(400);
 
   let count = 0;
   for (const article of articles) {

@@ -25,23 +25,22 @@ splitter = RecursiveCharacterTextSplitter(
     chunk_overlap=100
 )
 
-chunks = splitter.split_documents(documents)
-
 docs = []
-for chunk in chunks:
-    url = extract_url(chunk.page_content)
 
+for doc in documents:
+    url = extract_url(doc.page_content)
     if not url:
         continue
 
+    chunks = splitter.split_text(doc.page_content)
     clean_url = url.split("#")[0]
-
-    docs.append(
-        Document(
-            page_content=chunk.page_content,
-            metadata={"url": clean_url}
+    for chunk in chunks:
+        docs.append(
+            Document(
+                page_content=chunk,
+                metadata={"url": clean_url}
+            )
         )
-    )
 
 embeddings = HuggingFaceEmbeddings(
     model_name="sentence-transformers/all-MiniLM-L6-v2"
