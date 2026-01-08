@@ -17,11 +17,12 @@ jobs:
         with:
           node-version: 18
 
-      - name: Download previous state
+      - name: Download previous state (if exists)
         uses: actions/download-artifact@v4
         with:
           name: scraper-state
           path: state/
+        continue-on-error: true
 
       - name: Install dependencies
         run: npm install --production
