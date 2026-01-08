@@ -6,7 +6,6 @@ from langchain_community.vectorstores import FAISS
 from langchain_core.documents import Document
 import re
 
-
 def extract_url(text: str):
     match = re.search(r"Article URL:\s*(https?://\S+)", text)
     return match.group(1) if match else None
@@ -47,7 +46,7 @@ embeddings = HuggingFaceEmbeddings(
 )
 
 db = FAISS.from_documents(docs, embeddings)
-db.save_local("faiss_index")
+db.save_local("/app/faiss_index")
 
 print(f"Files loaded: {len(documents)}")
 print(f"Chunks created: {len(docs)}")

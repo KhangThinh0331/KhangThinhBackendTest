@@ -9,15 +9,13 @@ jobs:
   scrape:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 18
 
-      - name: Download previous state (if exists)
+      - name: Download previous state
         uses: actions/download-artifact@v4
         with:
           name: scraper-state
@@ -30,7 +28,7 @@ jobs:
       - name: Run scraper
         run: node index.js
 
-      - name: Upload run artifact
+      - name: Upload logs
         uses: actions/upload-artifact@v4
         with:
           name: last-run

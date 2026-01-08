@@ -12,13 +12,6 @@
 - Turndown (HTML → Markdown)
 - Slugify (generate URL-safe filenames)
 
-## How to Run Locally
-```bash
-npm install
-node index.js
-Markdown files will be generated in `data/articles/`
-```
-
 ## Build Assistant & Programmatically Load Vector Store
 
 **RAG Pipeline:**
@@ -48,10 +41,16 @@ The assistant correctly answered the test question using retrieved documentation
 
 ![Playground Answer Screenshot](screenshots/playground_answer.png)
 
-## How to Run Locally
+## Deploy Scraper as Daily Job
+
+**Run Node.js ingestion (pull articles and build FAISS index):**
+
 ```bash
-cd python
-pip install -r requirements.txt
-python ingest.py
-python query.py
+docker run -it -e GROQ_API_KEY="..." -v D:/faiss_index:/app/faiss_index mynode-python-app
+```
+
+**Run Chatbot:**
+
+```bash
+docker run -it -e GROQ_API_KEY="..." -v D:/faiss_index:/app/faiss_index mynode-python-app python3 python/query.py
 ```

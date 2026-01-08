@@ -1,7 +1,7 @@
 const fs = require("fs");
 const path = require("path")
 
-const STATE_FILE = path.join(__dirname, "..", "state", "state.json");
+const STATE_FILE = path.join(process.cwd(), "state", "state.json");
 
 function loadState() {
   if (!fs.existsSync(STATE_FILE)) return {};
