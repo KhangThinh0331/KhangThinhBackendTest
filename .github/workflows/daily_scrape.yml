@@ -14,12 +14,12 @@ jobs:
           mkdir -p logs
           mkdir -p state
 
-      - name: Download previous state
-        uses: actions/download-artifact@v4
+      - name: Restore state cache
+        uses: actions/cache@v4
         with:
-          name: scraper-state
           path: state
-        continue-on-error: true
+          key: scraper-state
+          restore-keys: scraper-state
 
       - name: Run scraper container
         run: |
@@ -28,14 +28,14 @@ jobs:
             -v ${{ github.workspace }}/logs:/app/logs \
             khangthinh/mynode-python-app
 
+      - name: Save state cache
+        uses: actions/cache@v4
+        with:
+          path: state
+          key: scraper-state
+
       - name: Upload run log
         uses: actions/upload-artifact@v4
         with:
           name: run-log
           path: logs/last_run.json
-
-      - name: Upload state
-        uses: actions/upload-artifact@v4
-        with:
-          name: scraper-state
-          path: state
