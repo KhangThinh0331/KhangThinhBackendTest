@@ -5,6 +5,7 @@ from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_community.vectorstores import FAISS
 from langchain_core.documents import Document
 import re
+import os
 
 def extract_url(text: str):
     match = re.search(r"Article URL:\s*(https?://\S+)", text)
@@ -45,8 +46,21 @@ embeddings = HuggingFaceEmbeddings(
     model_name="sentence-transformers/all-MiniLM-L6-v2"
 )
 
-db = FAISS.from_documents(docs, embeddings)
-db.save_local("/app/faiss_index")
+FAISS_PATH = "/app/faiss_index"
+
+if os.path.exists(FAISS_PATH):
+    print("Loading existing FAISS index...")
+    db = FAISS.load_local(
+        FAISS_PATH,
+        embeddings,
+        allow_dangerous_deserialization=True
+    )
+    db.add_documents(docs)
+else:
+    print("Creating new FAISS index...")
+    db = FAISS.from_documents(docs, embeddings)
+
+db.save_local(FAISS_PATH)
 
 print(f"Files loaded: {len(documents)}")
 print(f"Chunks created: {len(docs)}")
