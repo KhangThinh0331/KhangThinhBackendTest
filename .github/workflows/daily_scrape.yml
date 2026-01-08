@@ -18,7 +18,7 @@ jobs:
           node-version: 18
 
       - name: Download previous state
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: scraper-state
           path: state/
