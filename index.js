@@ -6,6 +6,7 @@ const { detectDelta, saveState } = require("./src/delta");
 const fs = require("fs");
 
 fs.mkdirSync("data/articles", { recursive: true });
+fs.mkdirSync("state", { recursive: true });
 
 async function run() {
   const articles = await pullArticles(100);
