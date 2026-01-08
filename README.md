@@ -33,7 +33,6 @@ Markdown files will be generated in `data/articles/`
 
 - Documents are split into chunks of 500 characters
 - Overlap of 100 characters is used to preserve context across chunks
-- This approach balances retrieval accuracy and performance
 
 ## Tech Stack
 
@@ -48,3 +47,11 @@ Markdown files will be generated in `data/articles/`
 The assistant correctly answered the test question using retrieved documentation.
 
 ![Playground Answer Screenshot](screenshots/playground_answer.png)
+
+## How to Run Locally
+```bash
+cd python
+pip install -r requirements.txt
+python ingest.py
+python query.py
+```

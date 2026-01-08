@@ -1,23 +1,34 @@
-const fs = require("fs");
 const { pullArticles } = require("./src/zendesk");
 const { cleanHtml } = require("./src/cleanHTML");
 const { htmlToMarkdown } = require("./src/toMarkdown");
 const { saveMarkdown } = require("./src/saveFile");
-
-fs.mkdirSync("data/articles", { recursive: true });
+const { detectDelta, saveState } = require("./src/delta");
+const fs = require("fs");
 
 async function run() {
-  const articles = await pullArticles(400);
+  const articles = await pullArticles(100);
+  const { added, updated, skipped, state } = detectDelta(articles);
 
-  let count = 0;
-  for (const article of articles) {
-    const cleaned = cleanHtml(article.body);
+  for (const a of [...added, ...updated]) {
+    const cleaned = cleanHtml(a.body);
     const md = htmlToMarkdown(cleaned);
-    saveMarkdown(article.title, article.html_url, md);
-    count++;
+    saveMarkdown(a.title, a.html_url, md);
   }
 
-  console.log(`Saved ${count} articles`);
+  saveState(state);
+
+  const summary = {
+    run_at: new Date().toISOString(),
+    fetched: articles.length,
+    added: added.length,
+    updated: updated.length,
+    skipped: skipped.length
+  };
+
+  fs.mkdirSync("logs", { recursive: true });
+  fs.writeFileSync("logs/last_run.json", JSON.stringify(summary, null, 2));
+
+  console.log("Run:", summary);
 }
 
 run();

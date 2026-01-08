@@ -11,3 +11,7 @@ __pycache__/
 venv/
 .venv/
 faiss_index/
+
+logs/
+last_run.json
+state.json
