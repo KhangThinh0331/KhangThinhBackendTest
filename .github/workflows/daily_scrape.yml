@@ -9,13 +9,18 @@ jobs:
   scrape:
     runs-on: ubuntu-latest
     steps:
+      - name: Prepare folders
+        run: |
+          mkdir -p logs
+          mkdir -p state
+
       - name: Run scraper container
-        run: docker run khangthinh/mynode-python-app
-      - run: |
+        run: |
           docker run \
-          -v ${{ github.workspace }}/state:/app/state \
-          -v ${{ github.workspace }}/logs:/app/logs \
-          khangthinh/mynode-python-app
+            -v ${{ github.workspace }}/state:/app/state \
+            -v ${{ github.workspace }}/logs:/app/logs \
+            khangthinh/mynode-python-app
+
       - name: Upload run log
         uses: actions/upload-artifact@v4
         with:
