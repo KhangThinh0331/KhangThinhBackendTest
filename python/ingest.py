@@ -46,6 +46,13 @@ embeddings = HuggingFaceEmbeddings(
     model_name="sentence-transformers/all-MiniLM-L6-v2"
 )
 
+print(f"Files loaded: {len(documents)}")
+print(f"Chunks created: {len(docs)}")
+
+if len(docs) == 0:
+    print("No new documents. Skip FAISS ingestion.")
+    exit(0)
+
 FAISS_PATH = "/app/faiss_index"
 
 if os.path.exists(FAISS_PATH):
@@ -61,6 +68,3 @@ else:
     db = FAISS.from_documents(docs, embeddings)
 
 db.save_local(FAISS_PATH)
-
-print(f"Files loaded: {len(documents)}")
-print(f"Chunks created: {len(docs)}")
