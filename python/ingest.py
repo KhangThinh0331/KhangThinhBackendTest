@@ -54,8 +54,9 @@ if len(docs) == 0:
     exit(0)
 
 FAISS_PATH = "/app/faiss_index"
+INDEX_FILE = os.path.join(FAISS_PATH, "index.faiss")
 
-if os.path.exists(FAISS_PATH):
+if os.path.exists(INDEX_FILE):
     print("Loading existing FAISS index...")
     db = FAISS.load_local(
         FAISS_PATH,
