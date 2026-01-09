@@ -25,6 +25,7 @@ jobs:
         run: |
           docker run \
             -v ${{ github.workspace }}/state:/app/state \
+            -v ${{ github.workspace }}/faiss_index:/app/faiss_index \
             -v ${{ github.workspace }}/logs:/app/logs \
             khangthinh/mynode-python-app
 
